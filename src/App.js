@@ -1,25 +1,51 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useRef } from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import LoginPage from "./components/Login";
+import RegisterPage from "./components/Register";
+import Home from "./components/Home";
+import MovieInfo from "./components/MovieInfo";
+import "./App.css";
 
 function App() {
+  useComponentWillMount(() =>
+    sessionStorage.setItem("loggedInUser", "defaultUser")
+  );
+  useComponentDidMount(() => {});
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Router>
+        <div>
+          <Switch>
+            <Route path="/login">
+              <LoginPage />
+            </Route>
+            <Route path="/register">
+              <RegisterPage />
+            </Route>
+            <Route path="/movieinfo">
+              <MovieInfo />
+            </Route>
+            <Route path="/">
+              <Home />
+            </Route>
+          </Switch>
+        </div>
+      </Router>
     </div>
   );
 }
+
+const useComponentWillMount = (func) => {
+  const willMount = useRef(true);
+  if (willMount.current) {
+    func();
+  }
+  useComponentDidMount(() => {
+    willMount.current = false;
+  });
+};
+
+const useComponentDidMount = (func) => useEffect(func, []);
 
 export default App;
