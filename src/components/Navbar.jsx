@@ -16,6 +16,7 @@ export default function Navbar(props) {
           backgroundColor: "#7952B3",
           top: "0px",
           marginBottom: "38px",
+          zIndex: 1,
         }}
       >
         <div style={{ width: "100%" }}>
@@ -29,7 +30,11 @@ export default function Navbar(props) {
           {props.page !== "login" ? (
             loggedInUser !== "defaultUser" ? (
               <div>
-                <button className="btn" style={{ color: "white" }}>
+                <button
+                  className="btn"
+                  style={{ color: "white" }}
+                  onClick={() => history.push("/userprofile")}
+                >
                   👤 {loggedInUser}
                 </button>
                 <button

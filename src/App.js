@@ -4,6 +4,7 @@ import LoginPage from "./components/Login";
 import RegisterPage from "./components/Register";
 import Home from "./components/Home";
 import MovieInfo from "./components/MovieInfo";
+import UserProfile from "./components/UserProfile";
 import "./App.css";
 
 function App() {
@@ -25,6 +26,9 @@ function App() {
             </Route>
             <Route path="/movieinfo">
               <MovieInfo />
+            </Route>
+            <Route path="/userprofile">
+              <UserProfile />
             </Route>
             <Route path="/">
               <Home />

@@ -9,7 +9,43 @@ export default function MovieInfo() {
   const location = useLocation();
   const history = useHistory();
   const data = location.state?.data;
-  const [message, setMessage] = useState(false);
+  const url = "https://movieinfo-be.herokuapp.com";
+  //const url = "http://localhost:3001";
+  const [watchListMessage, setWatchListMessage] = useState("");
+  const [likedListMessage, setLikedListMessage] = useState("");
+
+  const addToWatchList = () => {
+    setWatchListMessage("");
+    fetch(`${url}/updatewatchlist`, {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        username: sessionStorage.getItem("loggedInUser"),
+        moviename: data.name,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => setWatchListMessage(data.status));
+  };
+
+  const addToLikedList = () => {
+    setLikedListMessage("");
+    fetch(`${url}/updatelikedlist`, {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        username: sessionStorage.getItem("loggedInUser"),
+        moviename: data.name,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => setLikedListMessage(data.status));
+  };
+
   return (
     <div>
       <Navbar page="movieinfo" />
@@ -18,7 +54,7 @@ export default function MovieInfo() {
           className="btn btn-success ms-3 float-start"
           onClick={() => history.goBack()}
         >
-          <i class="fas fa-backward"></i> Go Back
+          <i className="fas fa-backward"></i> Go Back
         </button>
       </div>
       <div className="container mt-3 mb-5">
@@ -60,17 +96,37 @@ export default function MovieInfo() {
               </li>
             </ul>
             <button
-              className="btn btn-primary"
-              onClick={() => setMessage(true)}
+              className="btn btn-primary mt-3 mb-3"
+              onClick={() => addToWatchList()}
             >
               ➕ &nbsp; Add to watchlist &nbsp; &nbsp; &nbsp; &nbsp;
             </button>
-            {message ? (
-              <p className="mt-3" style={{ color: "green" }}>
-                Added to watchlist...
+            {watchListMessage.length > 0 ? (
+              <p
+                className="mt-3 ms-3 mb-3"
+                style={{ color: "green", display: "inline-block" }}
+              >
+                {watchListMessage}
               </p>
             ) : (
-              <p></p>
+              <span></span>
+            )}
+            <br />
+            <button
+              className="btn btn-primary mt-3 mb-3"
+              onClick={() => addToLikedList()}
+            >
+              ❤️&nbsp; Like &nbsp; &nbsp;
+            </button>
+            {likedListMessage.length > 0 ? (
+              <p
+                className="mt-3 ms-3 mb-3"
+                style={{ color: "green", display: "inline-block" }}
+              >
+                {likedListMessage}
+              </p>
+            ) : (
+              <span></span>
             )}
           </div>
         </div>

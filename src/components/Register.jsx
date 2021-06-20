@@ -16,6 +16,7 @@ export default function Register(props) {
   const [randFromBE, setRandFromBE] = useState("");
   const [randFromuser, setRandFromUser] = useState("");
   const url = "https://movieinfo-be.herokuapp.com";
+  //const url = "http://localhost:3001";
   const [codeCheck, setCodeCheck] = useState(true);
   const [loading, setLoading] = useState(false);
 
